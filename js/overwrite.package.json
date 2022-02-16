@@ -1,0 +1,11 @@
+{
+  "name": "matrix-seshat-prebuild",
+  "dependencies": {
+    "prebuild-install": "^7.0.1"
+  },
+  "scripts": {
+    "install": "prebuild-install || yarn run build-from-source",
+    "build-from-source": "neon build --release"
+  },
+  "repository": "git@github.com:julianhille/matrix-seshat-prebuild.git"
+}
