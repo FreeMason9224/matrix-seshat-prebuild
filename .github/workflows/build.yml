@@ -76,7 +76,7 @@ jobs:
       - run: yarn install
         working-directory: dist/node
       - name: Run tests
-        run: yarn test --testTimeout 20000
+        run: yarn test --testTimeout 60000
         working-directory: dist/node
       - name: Fetch filename
         id: artifact_name
@@ -191,7 +191,7 @@ jobs:
           path: dist/node/${{ steps.artifact_name.outputs.name }}.tar.gz
           name: ${{ steps.artifact_name.outputs.name }}
   publish:
-    needs: [build-electron]
+    needs: [build-electron, build-node]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
@@ -212,7 +212,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
-          path: ./dist/
+          path: ./dist
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -228,9 +228,8 @@ jobs:
           prerelease: steps.semver_parser.outputs.prerelease != []
       - uses: AButler/upload-release-assets@v2.0
         with:
-          files: 'dist/*'
+          files: 'dist/**.tar.gz/*.tar.gz;dist/package/*;dist/dist/*'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          release-tag: ${{ steps.semver_parser.outputs.fullversion }}
-      - run: npm install
+          release-tag: v${{ steps.semver_parser.outputs.fullversion }}
       - run: npm publish dist/package/*.tgz --dry-run
         shell: bash
