@@ -84,11 +84,11 @@ jobs:
         run: echo ::set-output name=name::`node ../../artifactname.js`
         working-directory: dist/node
       - name: Tar file
-        run: tar -cvzf ${{ steps.artifact_name.outputs.name }}.tar.gz native/index.node
+        run: tar -cvzf ${{ steps.artifact_name.outputs.name }} native/index.node
         working-directory: dist/node
       - uses: actions/upload-artifact@v2
         with:
-          path: dist/node/${{ steps.artifact_name.outputs.name }}.tar.gz
+          path: dist/node/${{ steps.artifact_name.outputs.name }}
           name: ${{ steps.artifact_name.outputs.name }}
   build-electron:
     needs: [basepackage]
@@ -184,11 +184,11 @@ jobs:
         run: echo ::set-output name=name::`yarn run --silent electron ../../artifactname.js`
         working-directory: dist/node
       - name: Tar file
-        run: tar -cvzf ${{ steps.artifact_name.outputs.name }}.tar.gz native/index.node
+        run: tar -cvzf ${{ steps.artifact_name.outputs.name }} native/index.node
         working-directory: dist/node
       - uses: actions/upload-artifact@v2
         with:
-          path: dist/node/${{ steps.artifact_name.outputs.name }}.tar.gz
+          path: dist/node/${{ steps.artifact_name.outputs.name }}
           name: ${{ steps.artifact_name.outputs.name }}
   publish:
     needs: [build-electron, build-node]
