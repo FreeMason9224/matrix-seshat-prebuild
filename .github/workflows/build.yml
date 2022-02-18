@@ -231,7 +231,7 @@ jobs:
           files: 'dist/**.tar.gz/*.tar.gz;dist/package/*;dist/dist/*'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           release-tag: v${{ steps.semver_parser.outputs.fullversion }}
-      - run: npm publish dist/package/*.tgz
-        shell: bash
-        env:
-          INPUT_TOKEN: ${{secrets.NPM_TOKEN}}
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          package: dist/dist/node/package.json
+          token: ${{ secrets.NPM_TOKEN }}
