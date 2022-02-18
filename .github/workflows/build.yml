@@ -234,4 +234,4 @@ jobs:
       - run: npm publish dist/package/*.tgz
         shell: bash
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          INPUT_TOKEN: ${{secrets.NPM_TOKEN}}
